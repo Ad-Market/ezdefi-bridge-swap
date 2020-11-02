@@ -12,6 +12,6 @@ export const HeaderMenu = ({ selected, withoutEvents, displayEventsTab, onMenuTo
       onMenuToggle={onMenuToggle}
     />
     <Wallet />
-    <NetworkSelect />
+    {/* <NetworkSelect /> */}
   </div>
 )

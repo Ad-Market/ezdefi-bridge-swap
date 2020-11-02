@@ -7,21 +7,21 @@ export const MenuItems = ({ selected, onMenuToggle = null, withoutEvents, displa
   const menuItems = [
     {
       hide: withoutEvents || !displayEventsTab,
-      icon: <EventsIcon />,
+      //icon: <EventsIcon />,
       link: '/events',
       text: 'Events',
       selected: selected === '/events'
     },
     {
       hide: false,
-      icon: displayEventsTab ? <StatusIcon /> : <AlternativeStatusIcon />,
+      //icon: displayEventsTab ? <StatusIcon /> : <AlternativeStatusIcon />,
       link: '/status',
       text: 'Status',
       selected: selected === '/status'
     },
     {
       hide: withoutEvents,
-      icon: <StatisticsIcon />,
+      //icon: <StatisticsIcon />,
       link: '/statistics',
       text: 'Statistics',
       selected: selected === '/statistics'
@@ -37,7 +37,7 @@ export const MenuItems = ({ selected, onMenuToggle = null, withoutEvents, displa
         className={`menu-items menu-items-${REACT_APP_UI_STYLES}`}
         onClick={() => onMenuToggle(item.link)}
       >
-        <span className={`menu-items-icon menu-items-icon-${selectedLabel}`}>{item.icon}</span>
+        {/* <span className={`menu-items-icon menu-items-icon-${selectedLabel}`}>{item.icon}</span> */}
         <span className={`menu-items-text menu-items-text-${selectedLabel}`}>{item.text}</span>
       </Link>
     )

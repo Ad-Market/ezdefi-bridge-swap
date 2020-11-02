@@ -21,7 +21,8 @@ export class Bridge extends React.Component {
     modalData: {},
     confirmationData: {},
     showModal: false,
-    showConfirmation: false
+    showConfirmation: false,
+    fee: ''
   }
 
   handleInputChange = name => event => {
@@ -48,24 +49,21 @@ export class Bridge extends React.Component {
     }
     if (isLessThan(amount, homeStore.minPerTx)) {
       alertStore.pushError(
-        `The amount is less than current minimum per transaction amount.\nThe minimum per transaction amount is: ${
-          homeStore.minPerTx
+        `The amount is less than current minimum per transaction amount.\nThe minimum per transaction amount is: ${homeStore.minPerTx
         } ${homeStore.symbol}`
       )
       return
     }
     if (isGreaterThan(amount, homeStore.maxPerTx)) {
       alertStore.pushError(
-        `The amount is above current maximum per transaction limit.\nThe maximum per transaction limit is: ${
-          homeStore.maxPerTx
+        `The amount is above current maximum per transaction limit.\nThe maximum per transaction limit is: ${homeStore.maxPerTx
         } ${homeStore.symbol}`
       )
       return
     }
     if (isGreaterThan(amount, homeStore.maxCurrentDeposit)) {
       alertStore.pushError(
-        `The amount is above current daily limit.\nThe max deposit today: ${homeStore.maxCurrentDeposit} ${
-          homeStore.symbol
+        `The amount is above current daily limit.\nThe max deposit today: ${homeStore.maxCurrentDeposit} ${homeStore.symbol
         }`
       )
       return
@@ -109,24 +107,21 @@ export class Bridge extends React.Component {
     }
     if (!isExternalErc20 && isLessThan(amount, foreignStore.minPerTx)) {
       alertStore.pushError(
-        `The amount is less than minimum amount per transaction.\nThe min per transaction is: ${
-          foreignStore.minPerTx
+        `The amount is less than minimum amount per transaction.\nThe min per transaction is: ${foreignStore.minPerTx
         } ${foreignStore.symbol}`
       )
       return
     }
     if (!isExternalErc20 && isGreaterThan(amount, foreignStore.maxPerTx)) {
       alertStore.pushError(
-        `The amount is above maximum amount per transaction.\nThe max per transaction is: ${foreignStore.maxPerTx} ${
-          foreignStore.symbol
+        `The amount is above maximum amount per transaction.\nThe max per transaction is: ${foreignStore.maxPerTx} ${foreignStore.symbol
         }`
       )
       return
     }
     if (!isExternalErc20 && isGreaterThan(amount, foreignStore.maxCurrentDeposit)) {
       alertStore.pushError(
-        `The amount is above current daily limit.\nThe max withdrawal today: ${foreignStore.maxCurrentDeposit} ${
-          foreignStore.symbol
+        `The amount is above current daily limit.\nThe max withdrawal today: ${foreignStore.maxCurrentDeposit} ${foreignStore.symbol
         }`
       )
       return
@@ -189,8 +184,8 @@ export class Bridge extends React.Component {
     const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse)
 
     if (validFee(feeToApply)) {
-      fee = feeToApply.multipliedBy(100)
-      finalAmount = finalAmount.multipliedBy(1 - feeToApply)
+      fee = feeToApply
+      finalAmount = finalAmount - feeToApply
     }
 
     const confirmationData = {
@@ -317,6 +312,13 @@ export class Bridge extends React.Component {
     return networkName.substring(index + 1, networkName.length)
   }
 
+  toggleNetworkRPC = (e) => {
+    e.preventDefault()
+    const { web3Store, foreignStore, homeStore } = this.props.RootStore
+    const { reverse } = web3Store
+    web3Store.setSelectedNetwork(reverse ? homeStore.networkName : foreignStore.networkName)
+  }
+
   render() {
     const { REACT_APP_UI_STYLES } = process.env
     const { web3Store, foreignStore, homeStore } = this.props.RootStore
@@ -337,19 +339,15 @@ export class Bridge extends React.Component {
     const foreignNetworkName = this.getNetworkTitle(foreignStore.networkName)
     const foreignNetworkSubtitle = this.getNetworkSubTitle(foreignStore.networkName)
 
+    const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse) || 0
+
     return (
       <div className="bridge-container">
         <div className="bridge">
-          <BridgeAddress isHome={true} reverse={reverse} />
           <div className="bridge-transfer">
-            <div className={`left-image-wrapper left-image-wrapper-${REACT_APP_UI_STYLES}`}>
-              <div className="left-image" />
-            </div>
             <div className={`bridge-transfer-content bridge-transfer-content-${REACT_APP_UI_STYLES}`}>
-              <div
-                className={`bridge-transfer-content-background bridge-transfer-content-background-${REACT_APP_UI_STYLES}`}
-              >
-                <BridgeNetwork
+
+              {/* <BridgeNetwork
                   balance={reverse ? foreignStore.balance : homeStore.getDisplayedBalance()}
                   currency={reverse ? foreignStore.symbol : homeStore.symbol}
                   isHome={true}
@@ -357,15 +355,113 @@ export class Bridge extends React.Component {
                   networkTitle={reverse ? foreignNetworkName : homeNetworkName}
                   showModal={reverse ? this.loadForeignDetails : this.loadHomeDetails}
                   side="left"
-                />
-                <BridgeForm
+                /> */}
+              <form onSubmit={this.onTransfer} autoComplete="off">
+                <div className="bridge-transfer-title">
+                  Protocol for crosschain exchange and transfering tokens between ezDeFi public chain and other blockchains
+                </div>
+
+                <div className="bridge-select">
+                  <div className="bridge-network-dropdown">
+                    <button className="bridge-network-dropbtn" disabled>
+                      <span>{reverse ? "BSC" : "ezDeFi"}</span>
+                      <span className="bridge-transfer-convert-icon" onClick={this.toggleNetworkRPC}></span>
+
+                      <span>{reverse ? "ezDeFi" : "BSC"}</span>
+                      <span className="bridge-transfer-arrow-down"></span>
+
+                    </button>
+                    <div className="bridge-network-dropdown-content">
+                      <a href="#" onClick={this.toggleNetworkRPC}>
+                        <span>{reverse ? "ezDeFi" : "BSC"}</span>
+                        <span className="bridge-transfer-convert-icon-blue"></span>
+                        <span>{reverse ? "BSC" : "ezDeFi"}</span>
+                      </a>
+                      {/* <a href="#">
+                        <span>ezDeFi</span>
+                        <span className="bridge-transfer-convert-icon-blue"></span>
+                        <span>Ethereum</span>
+                      </a> */}
+                    </div>
+                  </div>
+
+                  <div className="bridge-token-dropdown">
+                    <button className="bridge-token-dropbtn" disabled>
+                      <span>ZD</span>
+                      <span className="bridge-token-arrow-down"></span>
+                    </button>
+                    <div className="bridge-token-dropdown-content">
+                      <a href="#">
+                        <span>POC</span>
+                      </a>
+                      <a href="#">
+                        <span>SOW</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bridge-token-row bridge-token-input-wrap">
+                  <input
+                    pattern="[0-9]+([.][0-9]{1,18})?"
+                    type="text"
+                    placeholder="0"
+                    name="amount"
+                    onChange={this.handleInputChange('amount')}
+                  />
+                  <div className="bridge-token-row-right">
+                    <div className="zd-token-network-wrap">
+                      <span>ZD</span>
+                      <span className={reverse ? "zd-token-network-bsc" : "zd-token-network-ez"}></span>
+                    </div>
+                    <div className="zd-token-network-info" onClick={reverse ? this.loadForeignDetails : this.loadHomeDetails}></div>
+                  </div>
+                </div>
+
+                <div className="bridge-token-row bridge-token-balance">
+                  <span>
+                    Balance <span className="number-font">{reverse ? foreignStore.balance : homeStore.getDisplayedBalance()}</span>
+                  </span>
+                </div>
+
+                <div className="bridge-token-row bridge-token-convert-wrap">
+                  <span className="bridge-token-arrow-convert" onClick={this.toggleNetworkRPC}></span>
+                </div>
+
+                <div className="bridge-token-row bridge-token-output-wrap">
+                  <input value={this.state.amount>feeToApply?this.state.amount-feeToApply:0} placeholder="0" disabled />
+                  <div className="bridge-token-row-right">
+                    <div className="zd-token-network-wrap">
+                      <span>ZD</span>
+                      <span className={reverse ? "zd-token-network-ez" : "zd-token-network-bsc"}></span>
+                    </div>
+                    <div className="zd-token-network-info" onClick={reverse ? this.loadHomeDetails : this.loadForeignDetails}></div>
+                  </div>
+
+                </div>
+
+                <div className="bridge-token-row bridge-token-balance">
+                  <span>
+                    Balance <span className="number-font">{reverse ? homeStore.getDisplayedBalance() : foreignStore.balance}</span>
+                  </span>
+
+                  <span>Fee: </span>
+                  <span><span className="number-font">{feeToApply.toString()}</span> ZD</span>
+                </div>
+
+                <div className="bridge-token-row">
+                  <button className="bridge-token-btn-swap" type="submit">SWAP</button>
+                </div>
+              </form>
+
+              {/* <BridgeForm
                   currency={formCurrency}
                   displayArrow={!web3Store.metamaskNotSetted}
                   onInputChange={this.handleInputChange('amount')}
                   onTransfer={this.onTransfer}
                   reverse={reverse}
-                />
-                <BridgeNetwork
+                /> */}
+              {/* <BridgeNetwork
                   balance={reverse ? homeStore.getDisplayedBalance() : foreignStore.balance}
                   currency={reverse ? homeStore.symbol : foreignStore.symbol}
                   isHome={false}
@@ -373,14 +469,9 @@ export class Bridge extends React.Component {
                   networkTitle={reverse ? homeNetworkName : foreignNetworkName}
                   showModal={reverse ? this.loadHomeDetails : this.loadForeignDetails}
                   side="right"
-                />
-              </div>
-            </div>
-            <div className={`right-image-wrapper right-image-wrapper-${REACT_APP_UI_STYLES}`}>
-              <div className="right-image" />
+                /> */}
             </div>
           </div>
-          <BridgeAddress isHome={false} reverse={reverse} />
           <ModalContainer
             hideModal={() => {
               this.setState({ showModal: false })

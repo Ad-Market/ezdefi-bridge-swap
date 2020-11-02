@@ -70,7 +70,9 @@ const networks = {
   61: 'Ethereum Classic',
   77: 'Sokol Testnet',
   99: 'POA Network',
-  100: 'xDai Chain'
+  100: 'xDai Chain',
+  97: 'BSC Testnet',
+  111111: 'EZDefi Testnet'
 }
 
 export const getNetworkName = id => networks[id] || 'Unknown'

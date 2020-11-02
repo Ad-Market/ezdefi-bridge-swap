@@ -1,5 +1,4 @@
 .menu-items {
-  font-weight: bold;
   margin: 0 15px;
   text-decoration: none;
 
@@ -29,6 +28,7 @@
 
   &-selected {
     color: $header-menu-text-color-selected;
+    font-weight: bold;
   }
 }
 

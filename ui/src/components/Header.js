@@ -4,7 +4,7 @@ import { DailyQuotaModal } from './DailyQuotaModal'
 import { HeaderMenu } from './HeaderMenu'
 import { Link } from 'react-router-dom'
 import { MobileMenu } from './MobileMenu'
-import { MobileMenuButton } from './MobileMenuButton'
+// import { MobileMenuButton } from './MobileMenuButton'
 import { inject, observer } from 'mobx-react/index'
 
 @inject('RootStore')
@@ -62,7 +62,7 @@ export class Header extends React.Component {
             onMenuToggle={this.changeSelectedMenu}
             displayEventsTab={displayEventsTab}
           />
-          <MobileMenuButton onMenuToggle={onMenuToggle} showMobileMenu={showMobileMenu} />
+          {/* <MobileMenuButton onMenuToggle={onMenuToggle} showMobileMenu={showMobileMenu} /> */}
         </div>
         {alertStore && alertStore.showDailyQuotaInfo && <DailyQuotaModal />}
       </header>

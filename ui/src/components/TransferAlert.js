@@ -26,7 +26,7 @@ export const TransferAlert = ({
       </div>
       <div className="alert-container">
         <div className={`transfer-title transfer-title-${REACT_APP_UI_STYLES}`}>
-          <div className="alert-logo-box">
+          <div className={`alert-logo-box-${reverse ? 'foreign-logo' : 'home-logo'}`}>
             <div className={reverse ? 'foreign-logo' : 'home-logo'} />
           </div>
           <div>
@@ -36,7 +36,7 @@ export const TransferAlert = ({
           <div>
             <strong>{formattedToAmount}</strong> {toCurrency}
           </div>
-          <div className="alert-logo-box">
+          <div className={`alert-logo-box-${reverse ?  'home-logo' : 'foreign-logo'}`}>
             <div className={reverse ? 'home-logo' : 'foreign-logo'} />
           </div>
         </div>
@@ -65,7 +65,7 @@ export const TransferAlert = ({
           </div>
         </div>
         <p className="transfer-description" data-testid="transfer-description">
-          <strong>{fee && `Fee: ${fee.toString()}%`}</strong>
+          <strong>{fee && `Fee: ${fee.toString()} ZD`}</strong>
           <br />
           Please confirm that you would like to send {formattedFromAmount} {fromCurrency} from {from} to receive{' '}
           {formattedToAmount} {toCurrency} on {to}.

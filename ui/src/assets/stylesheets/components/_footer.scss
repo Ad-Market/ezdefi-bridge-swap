@@ -1,56 +1,58 @@
 .footer {
   @extend %full-width;
-  background-color: $footer-background-color;
+  background-color: #fff;
   bottom: 0;
-  color: $footer-text-color;
   padding: 18px 0;
   position: absolute;
+  border-top: #E5E5E5 1px solid;
+  @media screen and (min-width: $mobile-width) {
+    display: none;
+  }
 
-  .container {
+  .footer-menu {
     align-items: center;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+    font-size: $header-font-size;
+  
+    .wallet-connect{
+      width: 120px;
+      height: 30px;
+      background-color: $primary-color;
+      cursor: pointer;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    @media screen and (max-width: $tablet-width) {
-      flex-direction: column;
+      &:hover {
+        background-color: $primary-color-darker;
+      }
+  
+      a {
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+      }
+    }
+
+    .wallet-address{
+      width: 120px;
+      height: 30px;
+      background-color: $primary-color;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      a {
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+      }
     }
   }
-
-  .social-icons {
-    order: 2;
-
-    @media screen and (max-width: $tablet-width) {
-      margin-top: 15px;
-      order: 1;
-    }
-  }
-
-  &-logo {
-    background-image: url('#{ $footer-logo-image }');
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    height: $footer-logo-height;
-    left: 0;
-    order: 0;
-    width: $footer-logo-width;
-  }
-
-  &-logo-alternative {
-    mask-image: url('#{ $footer-logo-image }');
-    mask-size: contain;
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    height: $footer-logo-height;
-    left: 0;
-    order: 0;
-    width: $footer-logo-width;
-    background-color: #9eaab6;
-
-    &:hover {
-      background-color: #75818d;
-    }
-  }
+  
 }

@@ -1,0 +1,13 @@
+{
+    "homeBridge": {
+        "address": "0x6AB180094C18f932CFc4AdDcb0Fb541861Dca29f",
+        "deployedBlockNumber": 3642643
+    },
+    "foreignBridge": {
+        "address": "0x6AB180094C18f932CFc4AdDcb0Fb541861Dca29f",
+        "deployedBlockNumber": 3167690,
+        "erc677": {
+            "address": "0x09EB997a630C8994Ac06A669cE36892abbc68473"
+        }
+    }
+}

@@ -2,7 +2,7 @@
 .bridge-container {
     align-items: center;
     display: flex;
-    height: 80vh;
+    height: 50vh;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -16,7 +16,6 @@
 .bridge {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     width: 100%;
 
     .bridge-home {
@@ -131,62 +130,17 @@
         @media screen and (max-width: $tablet-width) {
             height: 389px;
         }
-        .left-image-wrapper {
-            background-color: $bridge-gradient-start;
-
-            &-stake {
-              display: none
-            }
-
-            .left-image {
-                background-color: $main-background-color;
-                background-image: url('#{ $bridge-image-left }');
-                background-position: calc(100% - 5px) 5px;
-                background-repeat: no-repeat;
-                background-size: contain;
-                border-top-right-radius: 10px;
-                height: $bridge-side-image-height;
-                max-width: 100%;
-                width: $bridge-side-image-width;
-
-                @media screen and (max-width: $tablet-width) {
-                    display: none;
-                }
-            }
-        }
-
-        .right-image-wrapper {
-            background-color: $bridge-gradient-end;
-
-            &-stake {
-              display: none
-            }
-
-            .right-image {
-              background-color: $main-background-color;
-              background-image: url('#{ $bridge-image-right }');
-              background-position: 5px 5px;
-              background-repeat: no-repeat;
-              background-size: contain;
-              border-bottom-left-radius: 10px;
-              height: $bridge-side-image-height;
-              max-width: 100%;
-              width: $bridge-side-image-width;
-
-              @media screen and (max-width: $tablet-width) {
-                  display: none;
-              }
-            }
-        }
 
         .bridge-transfer-content {
-            background-image: linear-gradient(to right, $bridge-gradient-start, $bridge-gradient-end);
-            border-bottom-left-radius: 10px;
-            border-top-right-radius: 10px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 16px 110px rgba(0, 0, 0, 0.25);
+            border-radius: 30px;
             display: flex;
-            flex-shrink: 0;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
             width: $bridge-transfer-width;
+            height: 380px;
+            padding: 28px 10px;
 
             &-stake {
               border: 1px solid #E6ECF1;
@@ -197,27 +151,351 @@
             @media screen and (max-width: $tablet-width) {
                 border-radius: 8px;
                 flex-direction: column;
-                max-width: 92%;
+                max-width: 82%;
             }
 
-            .bridge-transfer-content-background {
+            .bridge-transfer-title {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 14px;
+                text-align: center;
+                color: #828282;
+            }
+
+            .bridge-select{
+              display: flex;
+              margin-top: 20px;
+              justify-content: space-around;
+              width: 100%;
+            }
+
+            .bridge-network-dropbtn {
+              background-color: $primary-color;
+              color: white;
+              font-size: 12px;
+              border: none;
+              cursor: pointer;
+              width: 200px;
+              height: 30px;
+              border-radius: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-family: $main-font-family;
+              padding: 0 15px;
+
+              span:nth-child(1) {
+                margin-right: auto;
+              }
+
+              span:nth-child(2) {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+              }
+
+              span:nth-child(3) {
+                margin-left: auto;
+                margin-right: 5px;
+              }
+
+              // span:nth-child(4) {
+              //   margin-left: auto;
+              // }
+            }
+            
+            .bridge-network-dropdown {
+              position: relative;
+              display: inline-block;
+            }
+
+            .bridge-transfer-convert-icon {
+              background-image: url('#{ $bridge-image-convert }');
+              background-repeat: no-repeat;
+              background-size: contain;
+              justify-self: center;
+              display: block;
+              height: 12px;
+              width: 24px;
+            }
+
+            .bridge-transfer-convert-icon-blue {
+              background-image: url('#{ $bridge-image-convert-blue }');
+              background-repeat: no-repeat;
+              background-size: contain;
+              display: block;
+              height: 12px;
+              width: 24px;
+            }
+
+            .bridge-transfer-arrow-down {
+              background-image: url('#{ $bridge-image-arrown-down }');
+              background-repeat: no-repeat;
+              background-size: contain;
+              display: block;
+              height: 8px;
+              width: 8px;
+            }
+            
+            .bridge-network-dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #E5E5E5;
+              font-size: 12px;
+              width: 200px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              cursor: pointer;
+              z-index: 1;
+              border-radius: 0 0 10px 10px;
+            }
+            
+            .bridge-network-dropdown-content a {
+              color: $primary-color;
+              padding: 6px 16px;
+              text-decoration: none;
+              display: flex;
+              height: 30px;                 
+              justify-content: center;
+              align-items: center;
+              padding: 0px 15px;
+              font-family: $main-font-family;
+
+              span:nth-child(1) {
+                margin-right: auto;
+              }
+
+              span:nth-child(2) {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+              }
+
+              span:nth-child(3) {
+                margin-left: auto;
+              }
+            }
+            
+            .bridge-network-dropdown-content a:hover {background-color: #f1f1f1}
+            
+            .bridge-network-dropdown:hover .bridge-network-dropdown-content {
+              display: block;
+            }
+            
+            .bridge-network-dropdown:hover .bridge-network-dropbtn {
+              background-color: $primary-color-dark;
+            }
+
+            .bridge-token-dropbtn {
+              background-color: $primary-color;
+              color: white;
+              font-size: 12px;
+              border: none;
+              cursor: pointer;
+              width: 95px;
+              height: 30px;
+              border-radius: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 0px 20px;
+              position: relative;
+              font-family: $main-font-family;
+
+              span:nth-child(2) {
+                position: absolute;
+                right: 10px;
+              }
+            }
+            
+            .bridge-token-dropdown {
+              position: relative;
+              display: inline-block;
+            }
+
+            .bridge-token-arrow-down {
+              background-image: url('#{ $bridge-image-arrown-down }');
+              background-repeat: no-repeat;
+              background-size: contain;
+              display: block;
+              height: 8px;
+              width: 8px;
+            }
+            
+            .bridge-token-dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #E5E5E5;
+              font-size: 12px;
+              width: 100px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              cursor: pointer;
+              z-index: 1;
+              border-radius: 0 0 10px 10px;
+            }
+            
+            .bridge-token-dropdown-content a {
+              color: $primary-color;
+              padding: 6px 16px;
+              text-decoration: none;
+              display: flex;
+              height: 30px;                 
+              justify-content: center;
+              align-items: center;
+              padding: 0px 20px;
+            }
+            
+            .bridge-token-dropdown-content a:hover {background-color: #f1f1f1}
+            
+            .bridge-token-dropdown:hover .bridge-token-dropdown-content {
+              display: block;
+            }
+            
+            .bridge-token-dropdown:hover .bridge-token-dropbtn {
+              background-color: $primary-color-dark;
+            }
+
+            .bridge-token-row {
+              display: flex;
+              justify-content: space-around;
+              align-items: center;
+              width: 100%;
+
+              .bridge-token-arrow-convert {
+                background-image: url('../images/themes/core/bridge/arrow-convert.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: block;
+                height: 14px;
+                width: 14px;
+                cursor: pointer;
+              }
+
+              input {
+                border-bottom: 1px solid #D6D6D6;
+                color: $primary-color;
+                background-color: #fff;
+              }
+
+              .bridge-token-row-right {
                 display: flex;
-                flex-shrink: 0;
-                flex-wrap: wrap;
-                width: $bridge-transfer-width;
-
-                &-stake {
-                  justify-content: space-between;
-                }
-
-                @media screen and (max-width: $tablet-width) {
-                    background-image: url('#{ $bridge-image-center-pointing-down }');
-                    background-position: center;
+                justify-content: center;
+                align-items: center;
+                flex-direction: row;
+  
+                .zd-token-network-wrap {
+                  display: flex;
+                  background-color: #D6D6D6;
+                  border-radius: 10px;
+                  width: 54px;
+                  height: 15px;
+                  font-size: 12px;
+                  color: #6772E5;
+                  justify-content: space-around;
+                  align-items: center;
+                  padding: 2px;
+  
+                  .zd-token-network-ez{
+                    background-image: url('../images/themes/core/bridge/zdnetwork.svg');
                     background-repeat: no-repeat;
-                    background-size: 164px 203px;
-                    flex-direction: column;
-                    width: auto;
+                    background-size: contain;
+                    display: block;
+                    height: 14px;
+                    width: 14px;
+                  }
+  
+                  .zd-token-network-bsc{
+                    background-image: url('../images/themes/core/bridge/bscnetwork.svg');
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: block;
+                    height: 14px;
+                    width: 14px;
+                  }
                 }
+  
+                .zd-token-network-info {
+                    background-image: url('../images/themes/core/bridge/info.svg');
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: block;
+                    height: 14px;
+                    width: 14px;
+                    cursor: pointer;
+                    margin-left: 5px;
+                }
+              }             
+            }
+            
+            .bridge-token-input-wrap {
+              margin-top: 60px;
+
+            }
+
+            .bridge-token-convert-wrap {
+              margin-top: 30px;
+            }
+
+            .bridge-token-output-wrap {
+              margin-top: 30px;
+            }
+
+            .bridge-token-fee {
+              margin-top: 20px;
+              font-style: italic;
+              color: #AAAAAA;
+              font-size: 12px;
+
+              span:nth-child(1){
+                margin-left: auto;
+                margin-right: 30px;
+              }
+
+              span:nth-child(2){
+                margin-right: 50px;
+              }
+            }
+
+            .bridge-token-balance {
+              margin-top: 10px;
+              font-style: italic;
+              color: #AAAAAA;
+              font-size: 12px;
+
+              >span:nth-child(1){
+                margin-right: auto;
+                margin-left: 23px;
+              }
+
+              span:nth-child(2){
+                margin-right: 15px;
+                margin-left: auto;
+              }
+
+              span:nth-child(3){
+                margin-right: 40px;
+              }
+            }
+
+            .bridge-token-btn-swap {
+              margin-top: 30px;
+              width: 202px;
+              height: 40px;
+              color: #fff;
+              padding: 15px;
+              background: $primary-color;
+              border-radius: 20px;
+              font-family: $main-font-family;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-weight: bold;
+
+              &:hover{
+                background: $primary-color-darker;
+              }
             }
 
             .network-container-home {
@@ -713,14 +991,29 @@
                     fill: $primary-color;
                 }
 
-                .alert-logo-box {
+                .alert-logo-box-home-logo {
                     align-items: center;
-                    background-color: $alert-logo-box-background-color;
+                    background-color: $primary-color;
                     border-radius: 4px;
                     display: flex;
                     height: 50px;
                     justify-content: center;
                     width: 50px;
+                }
+
+                .alert-logo-box-foreign-logo {
+                  align-items: center;
+                  background-color: $tertiary-color;
+                  border-radius: 4px;
+                  display: flex;
+                  height: 50px;
+                  justify-content: center;
+                  width: 50px;
+                  transform: rotate(45deg);
+
+                  .foreign-logo{
+                    transform: rotate(-45deg);
+                  }
                 }
 
                 &-stake {

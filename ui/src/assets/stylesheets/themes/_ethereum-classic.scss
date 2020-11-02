@@ -154,6 +154,10 @@ $bridge-image-center-pointing-right: $base-images-path + '/themes/' + $theme-nam
 $bridge-image-center-pointing-down: $base-images-path + '/themes/' + $theme-name + '/transparent.png';
 $bridge-image-left: $base-images-path + '/themes/' + $theme-name + '/bridge/pattern-1.png';
 $bridge-image-right: $base-images-path + '/themes/' + $theme-name + '/bridge/pattern-2.png';
+$bridge-image-arrown-down: $base-images-path + '/themes/' + $theme-name + '/bridge/arrow-down.svg';
+$bridge-image-arrown-down-blue: $base-images-path + '/themes/' + $theme-name + '/bridge/arrow-down-blue.svg';
+$bridge-image-convert: $base-images-path + '/themes/' + $theme-name + '/bridge/convert.svg';
+$bridge-image-convert-blue: $base-images-path + '/themes/' + $theme-name + '/bridge/convert-blue.svg';
 $bridge-transfer-title-color: $modal-text-color;
 $bridge-transfer-width: 880px;
 $bridge-transfer-button-height: 48px;

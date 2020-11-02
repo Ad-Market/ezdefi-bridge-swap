@@ -1,9 +1,9 @@
 $theme-name: 'core';
 
 // base colors
-$primary-color: #5c34a2;
-$primary-color-dark: #502d8d;
-$primary-color-darker: #45277a;
+$primary-color: #6772E5;
+$primary-color-dark: #6670e9;
+$primary-color-darker: #5c68e9;
 $secondary-color: #60db97;
 $secondary-color-dark: #64a231;
 $tertiary-color: #ffaa07;
@@ -11,27 +11,31 @@ $danger-color: #f13662;
 $blue-color: #3ab9fe;
 $base-button-bg-color: #08b3f2;
 
-$text-color: #333;
+$text-color: #777;
 $link-color: $primary-color;
 
 $gradient-color-1: $primary-color;
 $gradient-color-2: #7b5ab2;
 
-// main
 @import url('https://fonts.googleapis.com/css?family=Nunito:300,400,700');
+// main
+@font-face { 
+  font-family: Univia; 
+  src: url( '#{ $base-fonts-path }/UniviaRegular.ttf'); 
+} 
 $main-background-color: #fff;
-$main-font-family: 'Nunito', sans-serif;
+$main-font-family: 'Univia', sans-serif;
 
 // header
-$header-background-color: $primary-color;
-$header-logo-width: 180px;
-$header-logo-height: 26px;
+$header-background-color: $main-background-color;
+$header-logo-width: 220px;
+$header-logo-height: 50px;
 
 // header menu
 $header-menu-icon-color: $secondary-color;
-$header-menu-text-color: #fff;
+$header-menu-text-color: $primary-color;
 $header-menu-icon-color-selected: $secondary-color;
-$header-menu-text-color-selected: #fff;
+$header-menu-text-color-selected: $primary-color-darker;
 $header-font-size: 16px;
 
 // daily quota
@@ -57,20 +61,20 @@ $social-icons-background-color: #fff;
 $social-icons-icon-color: $primary-color;
 
 // logo
-$logo-image: $base-images-path + '/themes/' + $theme-name + '/logos/logo.svg';
+$logo-image: $base-images-path + '/themes/' + $theme-name + '/logos/logo-ez.svg';
 $footer-logo-image: $logo-image;
 
 // home logo
 $home-logo-image: $base-images-path + '/themes/' + $theme-name + '/logos/logo-home.png';
-$home-logo-image-modal: $base-images-path + '/themes/' + $theme-name + '/logos/logo-home-modal.png';
-$home-logo-width: 52px;
-$home-logo-height: 16px;
+$home-logo-image-modal: $base-images-path + '/themes/' + $theme-name + '/logos/logo-home-modal.svg';
+$home-logo-width: 40px;
+$home-logo-height: 40px;
 
 // foreign logo
 $foreign-logo-image: $base-images-path + '/themes/' + $theme-name + '/logos/logo-foreign.svg';
 $foreign-logo-image-modal: $base-images-path + '/themes/' + $theme-name + '/logos/logo-foreign-modal.svg';
-$foreign-logo-width: 54px;
-$foreign-logo-height: 11px;
+$foreign-logo-width: 40px;
+$foreign-logo-height: 40px;
 
 // buttons
 $button-background-color: $secondary-color;
@@ -114,7 +118,7 @@ $modal-close-button-top: 40px;
 $modal-close-button-top-mobile: -40px;
 $modal-close-button-right-mobile: 0px;
 $modal-min-width: 558px;
-$modal-min-height: 410px;
+$modal-min-height: 710px;
 $daily-quota-modal-image: $base-images-path + '/themes/' + $theme-name + '/bridge/daily-quota-modal.svg';
 $network-select-modal-image: $base-images-path + '/themes/' + $theme-name + '/bridge/network-select-modal.svg';
 
@@ -152,10 +156,14 @@ $bridge-side-image-height: 276px;
 $bridge-image-center-pointing-left: $base-images-path + '/themes/' + $theme-name + '/bridge/center-image-pointing-left.svg';
 $bridge-image-center-pointing-right: $base-images-path + '/themes/' + $theme-name + '/bridge/center-image-pointing-right.svg';
 $bridge-image-center-pointing-down: $base-images-path + '/themes/' + $theme-name + '/bridge/center-image-pointing-down@2x.png';
+$bridge-image-arrown-down: $base-images-path + '/themes/' + $theme-name + '/bridge/arrow-down.svg';
+$bridge-image-arrown-down-blue: $base-images-path + '/themes/' + $theme-name + '/bridge/arrow-down-blue.svg';
+$bridge-image-convert: $base-images-path + '/themes/' + $theme-name + '/bridge/convert.svg';
+$bridge-image-convert-blue: $base-images-path + '/themes/' + $theme-name + '/bridge/convert-blue.svg';
 $bridge-image-left: $base-images-path + '/themes/' + $theme-name + '/bridge/pattern-1.png';
 $bridge-image-right: $base-images-path + '/themes/' + $theme-name + '/bridge/pattern-2.png';
 $bridge-transfer-title-color: $primary-color;
-$bridge-transfer-width: 880px;
+$bridge-transfer-width: 350px;
 $bridge-transfer-button-height: 48px;
 $bridge-transfer-button-width: 92px;
 $bridge-transfer-button-border-radius: 3px;
@@ -178,7 +186,7 @@ $button-transfer-cancel-hover-text-color: $button-bordered-text-color;
 
 // Network details
 $network-details-body-border-radius: 0 10px 10px 10px;
-$network-details-body-mobile-height: 250px;
+$network-details-body-mobile-height: 450px;
 
 // bridge alert
 $alert-logo-box-background-color: $primary-color;

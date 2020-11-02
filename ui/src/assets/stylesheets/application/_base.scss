@@ -36,11 +36,6 @@ a {
 button {
   color: #08b3f2;
   cursor: pointer;
-  margin-left: 5px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 input,
@@ -106,4 +101,8 @@ strong {
 
 .swal-button {
   background-color: $base-button-bg-color;
+}
+
+.number-font {
+  font-family: "Nunito";
 }

@@ -8,6 +8,28 @@
     }
     @media screen and (max-width: $tablet-width) {
         justify-content: flex-end;
-        width: auto;
+        //width: auto;
+    }
+
+    .wallet-connect{
+      width: 120px;
+      height: 30px;
+      background-color: $primary-color;
+      cursor: pointer;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: $primary-color-darker;
+      }
+
+      a {
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+      }
     }
 }
