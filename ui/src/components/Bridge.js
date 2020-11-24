@@ -41,8 +41,12 @@ export class Bridge extends React.Component {
   }
 
   async _sendToHome(amount) {
-    const { web3Store, homeStore, alertStore, txStore, bridgeMode } = this.props.RootStore
+    const { web3Store, homeStore, alertStore, txStore, bridgeMode, foreignStore } = this.props.RootStore
+    const { reverse } = web3Store
+    const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse) || 0
+    
     const { isLessThan, isGreaterThan } = this
+
     if (web3Store.metamaskNet.id.toString() !== web3Store.homeNet.id.toString()) {
       swal('Error', `Please switch wallet to ${web3Store.homeNet.name} network`, 'error')
       return
@@ -68,38 +72,43 @@ export class Bridge extends React.Component {
       )
       return
     }
-    if (isGreaterThan(amount, homeStore.getDisplayedBalance())) {
+    if (isGreaterThan(Number(amount) + Number(feeToApply), homeStore.getDisplayedBalance())) {
       alertStore.pushError('Insufficient balance')
-    } else {
-      try {
-        alertStore.setLoading(true)
-        if (isErcToErcMode(bridgeMode)) {
-          return txStore.erc677transferAndCall({
-            to: homeStore.COMMON_HOME_BRIDGE_ADDRESS,
-            from: web3Store.defaultAccount.address,
-            value: toDecimals(amount, homeStore.tokenDecimals),
-            contract: homeStore.tokenContract,
-            tokenAddress: homeStore.tokenAddress
-          })
-        } else {
-          const value = toHex(toDecimals(amount, homeStore.tokenDecimals))
-          return txStore.doSend({
-            to: homeStore.COMMON_HOME_BRIDGE_ADDRESS,
-            from: web3Store.defaultAccount.address,
-            value,
-            data: '0x',
-            sentValue: value
-          })
-        }
-      } catch (e) {
-        console.error(e)
+      return
+    }
+
+    try {
+      alertStore.setLoading(true)
+      if (isErcToErcMode(bridgeMode)) {
+        return txStore.erc677transferAndCall({
+          to: homeStore.COMMON_HOME_BRIDGE_ADDRESS,
+          from: web3Store.defaultAccount.address,
+          value: toDecimals(amount, homeStore.tokenDecimals),
+          contract: homeStore.tokenContract,
+          tokenAddress: homeStore.tokenAddress
+        })
+      } else {
+        const value = toHex(toDecimals(amount, homeStore.tokenDecimals))
+        return txStore.doSend({
+          to: homeStore.COMMON_HOME_BRIDGE_ADDRESS,
+          from: web3Store.defaultAccount.address,
+          value,
+          data: '0x',
+          sentValue: value
+        })
       }
+    } catch (e) {
+      alertStore.setLoading(false)
+      console.error(e)
     }
   }
 
   async _sendToForeign(amount) {
-    const { web3Store, foreignStore, alertStore, txStore } = this.props.RootStore
+    const { web3Store, foreignStore, alertStore, txStore, homeStore } = this.props.RootStore
     const isExternalErc20 = foreignStore.tokenType === ERC_TYPES.ERC20
+    const { reverse } = web3Store
+    const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse) || 0
+  
     const { isLessThan, isGreaterThan } = this
     if (web3Store.metamaskNet.id.toString() !== web3Store.foreignNet.id.toString()) {
       swal('Error', `Please switch wallet to ${web3Store.foreignNet.name} network`, 'error')
@@ -126,30 +135,34 @@ export class Bridge extends React.Component {
       )
       return
     }
-    if (isGreaterThan(amount, foreignStore.balance)) {
+    
+    if (isGreaterThan(Number(amount) + Number(feeToApply), foreignStore.balance)) {
       alertStore.pushError(`Insufficient token balance. Your balance is ${foreignStore.balance} ${foreignStore.symbol}`)
-    } else {
-      try {
-        alertStore.setLoading(true)
-        if (isExternalErc20) {
-          return await txStore.erc20transfer({
-            to: foreignStore.COMMON_FOREIGN_BRIDGE_ADDRESS,
-            from: web3Store.defaultAccount.address,
-            value: toDecimals(amount, foreignStore.tokenDecimals)
-          })
-        } else {
-          return await txStore.erc677transferAndCall({
-            to: foreignStore.COMMON_FOREIGN_BRIDGE_ADDRESS,
-            from: web3Store.defaultAccount.address,
-            value: toHex(toDecimals(amount, foreignStore.tokenDecimals)),
-            contract: foreignStore.tokenContract,
-            tokenAddress: foreignStore.tokenAddress
-          })
-        }
-      } catch (e) {
-        console.error(e)
-      }
+      return
     }
+
+    try {
+      alertStore.setLoading(true)
+      if (isExternalErc20) {
+        return await txStore.erc20transfer({
+          to: foreignStore.COMMON_FOREIGN_BRIDGE_ADDRESS,
+          from: web3Store.defaultAccount.address,
+          value: toDecimals(amount, foreignStore.tokenDecimals)
+        })
+      } else {
+        return await txStore.erc677transferAndCall({
+          to: foreignStore.COMMON_FOREIGN_BRIDGE_ADDRESS,
+          from: web3Store.defaultAccount.address,
+          value: toHex(toDecimals(amount, foreignStore.tokenDecimals)),
+          contract: foreignStore.tokenContract,
+          tokenAddress: foreignStore.tokenAddress
+        })
+      }
+    } catch (e) {
+      alertStore.setLoading(false)
+      console.error(e)
+    }
+
   }
 
   isLessThan = (amount, base) => new BN(amount).lt(new BN(base))
@@ -429,7 +442,7 @@ export class Bridge extends React.Component {
                 </div>
 
                 <div className="bridge-token-row bridge-token-output-wrap">
-                  <input value={this.state.amount>feeToApply?this.state.amount-feeToApply:0} placeholder="0" disabled />
+                  <input value={this.state.amount > feeToApply ? this.state.amount - feeToApply : 0} placeholder="0" disabled />
                   <div className="bridge-token-row-right">
                     <div className="zd-token-network-wrap">
                       <span>ZD</span>
