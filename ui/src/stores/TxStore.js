@@ -59,6 +59,7 @@ class TxStore {
             }
           })
       } catch (e) {
+        this.alertStore.setLoading(false)
         this.alertStore.pushError(e.message)
       }
     })

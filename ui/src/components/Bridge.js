@@ -43,7 +43,6 @@ export class Bridge extends React.Component {
   async _sendToHome(amount) {
     const { web3Store, homeStore, alertStore, txStore, bridgeMode, foreignStore } = this.props.RootStore
     const { reverse } = web3Store
-    const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse) || 0
     
     const { isLessThan, isGreaterThan } = this
 
@@ -72,7 +71,7 @@ export class Bridge extends React.Component {
       )
       return
     }
-    if (isGreaterThan(Number(amount) + Number(feeToApply), homeStore.getDisplayedBalance())) {
+    if (isGreaterThan(amount, homeStore.getDisplayedBalance())) {
       alertStore.pushError('Insufficient balance')
       return
     }
@@ -107,7 +106,6 @@ export class Bridge extends React.Component {
     const { web3Store, foreignStore, alertStore, txStore, homeStore } = this.props.RootStore
     const isExternalErc20 = foreignStore.tokenType === ERC_TYPES.ERC20
     const { reverse } = web3Store
-    const feeToApply = getFeeToApply(homeStore.feeManager, foreignStore.feeManager, !reverse) || 0
   
     const { isLessThan, isGreaterThan } = this
     if (web3Store.metamaskNet.id.toString() !== web3Store.foreignNet.id.toString()) {
@@ -136,7 +134,7 @@ export class Bridge extends React.Component {
       return
     }
     
-    if (isGreaterThan(Number(amount) + Number(feeToApply), foreignStore.balance)) {
+    if (isGreaterThan(amount, foreignStore.balance)) {
       alertStore.pushError(`Insufficient token balance. Your balance is ${foreignStore.balance} ${foreignStore.symbol}`)
       return
     }
