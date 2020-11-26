@@ -52,9 +52,9 @@ class GasPriceStore {
       this.factor = Number(REACT_APP_COMMON_FOREIGN_GAS_PRICE_FACTOR) || DEFAULT_GAS_PRICE_FACTOR
     }
 
-    const oracleOptions = { speedType: this.speedType, factor: this.factor, logger: console }
-    const fetchFn = this.gasPriceSupplierUrl === 'gas-price-oracle' ? null : () => fetch(this.gasPriceSupplierUrl)
-    this.gasPrice = (await gasPriceFromSupplier(fetchFn, oracleOptions)) || this.gasPrice
+    //const oracleOptions = { speedType: this.speedType, factor: this.factor, logger: console }
+    //const fetchFn = this.gasPriceSupplierUrl === 'gas-price-oracle' ? null : () => fetch(this.gasPriceSupplierUrl)
+    this.gasPrice = (await this.web3Store.getGasPrice()) || this.gasPrice
 
     setTimeout(() => this.updateGasPrice(), this.updateInterval)
   }

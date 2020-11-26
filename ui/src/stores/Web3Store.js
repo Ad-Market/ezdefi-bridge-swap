@@ -150,6 +150,15 @@ class Web3Store {
     return this.metamaskNet.id === this.homeNet.id
   }
 
+  async getGasPrice() {
+    return new Promise((resolve, reject) => {
+      this.injectedWeb3.eth.getGasPrice((e, _gasPrice) => { 
+        if(e) return resolve(0) 
+        resolve(_gasPrice.toString(10)) 
+      })
+    })
+  }
+
   @action
   setSelectedNetwork(name) {
     const newNetwork = name === this.homeNet.name ? this.homeNet : this.foreignNet

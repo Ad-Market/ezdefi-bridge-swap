@@ -30,7 +30,7 @@ class TxStore {
             ? this.homeStore.requiredBlockConfirmations
             : this.foreignStore.requiredBlockConfirmations
         const gasPrice = this.gasPriceStore.gasPriceInHex
-        const gas = await estimateGas(this.web3Store.injectedWeb3, to, gasPrice, from, value, data)
+        const gas = await estimateGas(this.web3Store.injectedWeb3, to, 0, from, value, data)
         return this.web3Store.injectedWeb3.eth
           .sendTransaction({
             to,
