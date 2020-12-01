@@ -20,7 +20,11 @@ async function estimateGas({
   signatures
 }) {
   try {
-    const gasEstimate = await foreignBridge.methods.executeSignatures(message, signatures).estimateGas()
+    logger.debug('message', message)
+    logger.debug('signatures', signatures)
+    const gasEstimate = await foreignBridge.methods.executeSignatures(message, signatures).estimateGas({
+      from: address
+    })
     return gasEstimate
   } catch (e) {
     if (e instanceof HttpListProviderError) {

@@ -75,7 +75,7 @@ if (process.env.SOLIDITY_COVERAGE === 'true') {
       }
     ],
     port: 8545,
-    gasLimit: 10000000
+    gasLimit: 500000000
   })
   provider.addProvider(ganacheSubprovider)
   provider.start(err => {

@@ -210,8 +210,7 @@ if (BRIDGE_MODE !== 'ARBITRARY_MESSAGE') {
       if (
         (BRIDGE_MODE === 'ERC_TO_NATIVE' &&
           HOME_REWARDABLE === 'BOTH_DIRECTIONS' &&
-          HOME_FEE_MANAGER_TYPE === 'POSDAO_REWARD') ||
-        (BRIDGE_MODE === 'ERC_TO_ERC' && HOME_REWARDABLE === 'BOTH_DIRECTIONS')
+          HOME_FEE_MANAGER_TYPE === 'POSDAO_REWARD')
       ) {
         validations = {
           ...validations,
@@ -339,16 +338,6 @@ if (env.BRIDGE_MODE === 'NATIVE_TO_ERC') {
 
 if (env.BRIDGE_MODE === 'ERC_TO_ERC') {
   checkLimits(env.FOREIGN_MIN_AMOUNT_PER_TX, env.FOREIGN_MAX_AMOUNT_PER_TX, env.FOREIGN_DAILY_LIMIT, foreignPrefix)
-
-  if (env.HOME_REWARDABLE === 'BOTH_DIRECTIONS' && env.BLOCK_REWARD_ADDRESS === ZERO_ADDRESS) {
-    throw new Error(
-      'Collecting fees on Home Network on ERC_TO_ERC mode without Block Reward contract is not supported.'
-    )
-  }
-
-  if (env.FOREIGN_REWARDABLE !== 'false') {
-    throw new Error(`Collecting fees on Foreign Network on ${env.BRIDGE_MODE} bridge mode is not supported.`)
-  }
 }
 
 if (env.BRIDGE_MODE === 'ERC_TO_NATIVE') {

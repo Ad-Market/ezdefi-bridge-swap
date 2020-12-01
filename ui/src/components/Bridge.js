@@ -17,12 +17,12 @@ import { toDecimals } from '../stores/utils/decimals'
 @observer
 export class Bridge extends React.Component {
   state = {
-    amount: '',
+    amount: 0,
     modalData: {},
     confirmationData: {},
     showModal: false,
     showConfirmation: false,
-    fee: ''
+    fee: 0
   }
 
   handleInputChange = name => event => {
@@ -97,7 +97,6 @@ export class Bridge extends React.Component {
         })
       }
     } catch (e) {
-      alertStore.setLoading(false)
       console.error(e)
     }
   }
@@ -157,7 +156,6 @@ export class Bridge extends React.Component {
         })
       }
     } catch (e) {
-      alertStore.setLoading(false)
       console.error(e)
     }
 
@@ -398,7 +396,7 @@ export class Bridge extends React.Component {
 
                   <div className="bridge-token-dropdown">
                     <button className="bridge-token-dropbtn" disabled>
-                      <span>ZD</span>
+                      <span>zSeed</span>
                       <span className="bridge-token-arrow-down"></span>
                     </button>
                     <div className="bridge-token-dropdown-content">
@@ -422,7 +420,7 @@ export class Bridge extends React.Component {
                   />
                   <div className="bridge-token-row-right">
                     <div className="zd-token-network-wrap">
-                      <span>ZD</span>
+                      <span>zSeed</span>
                       <span className={reverse ? "zd-token-network-bsc" : "zd-token-network-ez"}></span>
                     </div>
                     <div className="zd-token-network-info" onClick={reverse ? this.loadForeignDetails : this.loadHomeDetails}></div>
@@ -440,10 +438,10 @@ export class Bridge extends React.Component {
                 </div>
 
                 <div className="bridge-token-row bridge-token-output-wrap">
-                  <input value={this.state.amount > feeToApply ? this.state.amount - feeToApply : 0} placeholder="0" disabled />
+                  <input value={this.state.amount > Number(feeToApply) ? this.state.amount - Number(feeToApply) : 0} placeholder="0" disabled />
                   <div className="bridge-token-row-right">
                     <div className="zd-token-network-wrap">
-                      <span>ZD</span>
+                      <span>zSeed</span>
                       <span className={reverse ? "zd-token-network-ez" : "zd-token-network-bsc"}></span>
                     </div>
                     <div className="zd-token-network-info" onClick={reverse ? this.loadHomeDetails : this.loadForeignDetails}></div>
@@ -457,7 +455,7 @@ export class Bridge extends React.Component {
                   </span>
 
                   <span>Fee: </span>
-                  <span><span className="number-font">{feeToApply.toString()}</span> ZD</span>
+                  <span><span className="number-font">{feeToApply.toString()}</span> zSeed</span>
                 </div>
 
                 <div className="bridge-token-row">

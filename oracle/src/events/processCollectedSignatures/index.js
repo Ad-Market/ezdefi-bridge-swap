@@ -124,16 +124,17 @@ function processCollectedSignaturesBuilder(config) {
         let gasEstimate
         try {
           logger.debug('Estimate gas')
-          gasEstimate = await estimateGas({
-            foreignBridge,
-            validatorContract,
-            v,
-            r,
-            s,
-            signatures,
-            message,
-            numberOfCollectedSignatures: NumberOfCollectedSignatures
-          })
+          // gasEstimate = await estimateGas({
+          //   foreignBridge,
+          //   validatorContract,
+          //   v,
+          //   r,
+          //   s,
+          //   signatures,
+          //   message,
+          //   numberOfCollectedSignatures: NumberOfCollectedSignatures
+          // })
+          gasEstimate = 6*10**4
           logger.debug({ gasEstimate }, 'Gas estimated')
         } catch (e) {
           if (e instanceof HttpListProviderError) {

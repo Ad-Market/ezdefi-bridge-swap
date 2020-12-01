@@ -9,6 +9,7 @@ function getContracts() {
     BridgeValidators: require(`../../build/${buildPath}/BridgeValidators.json`),
     RewardableValidators: require(`../../build/${buildPath}/RewardableValidators.json`),
     FeeManagerErcToErcPOSDAO: require(`../../build/${buildPath}/FeeManagerErcToErcPOSDAO.json`),
+    FeeManagerErcToErc: require(`../../build/${buildPath}/FeeManagerErcToErc.json`),
     HomeBridgeErcToErc: require(`../../build/${buildPath}/HomeBridgeErcToErc.json`),
     ForeignBridgeErcToErc: require(`../../build/${buildPath}/ForeignBridgeErcToErc.json`),
     ForeignBridgeErc677ToErc677: require(`../../build/${buildPath}/ForeignBridgeErc677ToErc677.json`),

@@ -14,13 +14,6 @@ module.exports = {
       NODE_ENV: "production"
     }
   },{
-    name: "watcher:affirmation-request",
-    script: "./scripts/start-worker.sh",
-    args: "watcher affirmation-request-watcher",
-    env: {
-      NODE_ENV: "production"
-    }
-  },{
     name: "sender:home",
     script: "./scripts/start-worker.sh",
     args: "sender home-sender",
@@ -31,6 +24,13 @@ module.exports = {
     name: "sender:foreign",
     script: "./scripts/start-worker.sh",
     args: "sender foreign-sender",
+    env: {
+      NODE_ENV: "production"
+    }
+  },{
+    name: "watcher:transfer",
+    script: "./scripts/start-worker.sh",
+    args: "watcher transfer-watcher",
     env: {
       NODE_ENV: "production"
     }

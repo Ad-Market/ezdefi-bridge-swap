@@ -42,7 +42,7 @@ contract BasicForeignBridgeErcToErc is BasicForeignBridge {
     function onExecuteMessage(
         address _recipient,
         uint256 _amount,
-        bytes32 /*_txHash*/
+        bytes32 _txHash
     ) internal returns (bool) {
         addTotalExecutedPerDay(getCurrentDay(), _amount);
         uint256 amount = _unshiftValue(_amount);

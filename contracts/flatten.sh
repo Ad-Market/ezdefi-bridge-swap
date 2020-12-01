@@ -41,6 +41,7 @@ ${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_erc20/HomeBridgeErcToErcPOSDAO.sol
 ${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_erc20/ForeignBridgeErcToErc.sol > flats/erc20_to_erc20/ForeignBridgeErcToErc_flat.sol
 ${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_erc20/ForeignBridgeErc677ToErc677.sol > flats/erc20_to_erc20/ForeignBridgeErc677ToErc677_flat.sol
 ${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_erc20/FeeManagerErcToErcPOSDAO.sol > flats/erc20_to_erc20/FeeManagerErcToErcPOSDAO_flat.sol
+${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_erc20/FeeManagerErcToErc.sol > flats/erc20_to_erc20/FeeManagerErcToErc_flat.sol
 
 echo "Flattening contracts related to erc-to-native bridge"
 ${FLATTENER} ${BRIDGE_CONTRACTS_DIR}/erc20_to_native/HomeBridgeErcToNative.sol > flats/erc20_to_native/HomeBridgeErcToNative_flat.sol

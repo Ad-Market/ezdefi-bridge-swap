@@ -298,8 +298,8 @@ class HomeStore {
           this.feeManager.homeFee = await getHomeFee(this.homeBridge)
           this.feeManager.foreignFee = await getForeignFee(this.homeBridge)
         } else {
-          this.feeManager.homeFee = new BN(0)
-          this.feeManager.foreignFee = await getForeignFee(this.homeBridge)
+          this.feeManager.homeFee = await getHomeFee(this.homeBridge)
+          this.feeManager.foreignFee = new BN(0)
         }
       } else {
         this.feeManager.feeManagerMode = FEE_MANAGER_MODE.UNDEFINED

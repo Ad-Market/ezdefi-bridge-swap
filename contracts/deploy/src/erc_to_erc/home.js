@@ -22,6 +22,7 @@ const {
     BridgeValidators,
     RewardableValidators,
     FeeManagerErcToErcPOSDAO,
+    FeeManagerErcToErc,
     HomeBridgeErcToErc: HomeBridge,
     HomeBridgeErcToErcPOSDAO,
     ERC677BridgeToken,
@@ -64,7 +65,7 @@ const isRewardableBridge = HOME_REWARDABLE === 'BOTH_DIRECTIONS'
 
 let VALIDATORS_REWARD_ACCOUNTS = []
 
-if (isRewardableBridge && BLOCK_REWARD_ADDRESS === ZERO_ADDRESS) {
+if (isRewardableBridge) {
   VALIDATORS_REWARD_ACCOUNTS = env.VALIDATORS_REWARD_ACCOUNTS.split(' ')
 }
 
@@ -72,9 +73,9 @@ async function initializeBridge({ validatorsBridge, bridge, erc677token, initial
   let nonce = initialNonce
   let initializeHomeBridgeData
 
-  if (isRewardableBridge && BLOCK_REWARD_ADDRESS !== ZERO_ADDRESS) {
+  if (isRewardableBridge) {
     console.log('\ndeploying implementation for fee manager')
-    const feeManager = await deployContract(FeeManagerErcToErcPOSDAO, [], {
+    const feeManager = await deployContract(FeeManagerErcToErc, [], {
       from: DEPLOYMENT_ACCOUNT_ADDRESS,
       nonce
     })
@@ -104,7 +105,6 @@ async function initializeBridge({ validatorsBridge, bridge, erc677token, initial
         HOME_BRIDGE_OWNER,
         feeManager.options.address,
         [homeFeeInWei.toString(), foreignFeeInWei.toString()],
-        BLOCK_REWARD_ADDRESS,
         foreignToHomeDecimalShift
       )
       .encodeABI()
@@ -159,7 +159,7 @@ async function deployHome() {
 
   console.log('\ndeploying implementation for home validators')
   const bridgeValidatorsContract =
-    isRewardableBridge && BLOCK_REWARD_ADDRESS === ZERO_ADDRESS ? RewardableValidators : BridgeValidators
+    isRewardableBridge ? RewardableValidators : BridgeValidators
   const bridgeValidatorsHome = await deployContract(bridgeValidatorsContract, [], {
     from: DEPLOYMENT_ACCOUNT_ADDRESS,
     nonce
@@ -181,7 +181,7 @@ async function deployHome() {
   bridgeValidatorsHome.options.address = storageValidatorsHome.options.address
   await initializeValidators({
     contract: bridgeValidatorsHome,
-    isRewardableBridge: isRewardableBridge && BLOCK_REWARD_ADDRESS === ZERO_ADDRESS,
+    isRewardableBridge: isRewardableBridge,
     requiredNumber: REQUIRED_NUMBER_OF_VALIDATORS,
     validators: VALIDATORS,
     rewardAccounts: VALIDATORS_REWARD_ACCOUNTS,
@@ -229,14 +229,9 @@ async function deployHome() {
   nonce++
 
   console.log('\n[Home] deploying Bridgeable token')
-  const rewardable = (isRewardableBridge && BLOCK_REWARD_ADDRESS !== ZERO_ADDRESS) || DEPLOY_REWARDABLE_TOKEN
-  const erc677Contract = rewardable ? ERC677BridgeTokenRewardable : ERC677BridgeToken
+  const erc677Contract = ERC677BridgeToken
   let args = [BRIDGEABLE_TOKEN_NAME, BRIDGEABLE_TOKEN_SYMBOL, BRIDGEABLE_TOKEN_DECIMALS]
-  if (rewardable) {
-    const chainId = await web3Home.eth.getChainId()
-    assert.strictEqual(chainId > 0, true, 'Invalid chain ID')
-    args.push(chainId)
-  }
+
   const erc677token = await deployContract(
     erc677Contract,
     args,
@@ -253,38 +248,6 @@ async function deployHome() {
     url: HOME_RPC_URL
   })
   nonce++
-
-  if ((isRewardableBridge && BLOCK_REWARD_ADDRESS !== ZERO_ADDRESS) || DEPLOY_REWARDABLE_TOKEN) {
-    console.log('\nset BlockReward contract on ERC677BridgeTokenRewardable')
-    const setBlockRewardContractData = await erc677token.methods
-      .setBlockRewardContract(BLOCK_REWARD_ADDRESS)
-      .encodeABI({ from: DEPLOYMENT_ACCOUNT_ADDRESS })
-    const setBlockRewardContract = await sendRawTxHome({
-      data: setBlockRewardContractData,
-      nonce,
-      to: erc677token.options.address,
-      privateKey: deploymentPrivateKey,
-      url: HOME_RPC_URL
-    })
-    assert.strictEqual(Web3Utils.hexToNumber(setBlockRewardContract.status), 1, 'Transaction Failed')
-    nonce++
-  }
-
-  if (DEPLOY_REWARDABLE_TOKEN) {
-    console.log('\nset Staking contract on ERC677BridgeTokenRewardable')
-    const setStakingContractData = await erc677token.methods
-      .setStakingContract(DPOS_STAKING_ADDRESS)
-      .encodeABI({ from: DEPLOYMENT_ACCOUNT_ADDRESS })
-    const setStakingContract = await sendRawTxHome({
-      data: setStakingContractData,
-      nonce,
-      to: erc677token.options.address,
-      privateKey: deploymentPrivateKey,
-      url: HOME_RPC_URL
-    })
-    assert.strictEqual(Web3Utils.hexToNumber(setStakingContract.status), 1, 'Transaction Failed')
-    nonce++
-  }
 
   console.log('transferring ownership of Bridgeble token to homeBridge contract')
   await transferOwnership({
