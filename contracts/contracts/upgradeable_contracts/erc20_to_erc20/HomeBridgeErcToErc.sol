@@ -159,7 +159,7 @@ contract HomeBridgeErcToErc is
             bytes32 txHash;
             address contractAddress;
             (recipient, amount, txHash, contractAddress) = Message.parseMessage(_message);
-            uint256 fee = calculateFee(amount, true, feeManager, HOME_FEE);
+            uint256 fee = calculateFee(amount, false, feeManager, HOME_FEE);
             distributeFeeFromSignatures(fee, feeManager, txHash);
         }
     }

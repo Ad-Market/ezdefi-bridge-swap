@@ -104,28 +104,27 @@ export class Bridge extends React.Component {
   async _sendToForeign(amount) {
     const { web3Store, foreignStore, alertStore, txStore, homeStore } = this.props.RootStore
     const isExternalErc20 = foreignStore.tokenType === ERC_TYPES.ERC20
-    const { reverse } = web3Store
   
     const { isLessThan, isGreaterThan } = this
     if (web3Store.metamaskNet.id.toString() !== web3Store.foreignNet.id.toString()) {
       swal('Error', `Please switch wallet to ${web3Store.foreignNet.name} network`, 'error')
       return
     }
-    if (!isExternalErc20 && isLessThan(amount, foreignStore.minPerTx)) {
+    if (isLessThan(amount, foreignStore.minPerTx)) {
       alertStore.pushError(
         `The amount is less than minimum amount per transaction.\nThe min per transaction is: ${foreignStore.minPerTx
         } ${foreignStore.symbol}`
       )
       return
     }
-    if (!isExternalErc20 && isGreaterThan(amount, foreignStore.maxPerTx)) {
+    if (isGreaterThan(amount, foreignStore.maxPerTx)) {
       alertStore.pushError(
         `The amount is above maximum amount per transaction.\nThe max per transaction is: ${foreignStore.maxPerTx} ${foreignStore.symbol
         }`
       )
       return
     }
-    if (!isExternalErc20 && isGreaterThan(amount, foreignStore.maxCurrentDeposit)) {
+    if (isGreaterThan(amount, foreignStore.maxCurrentDeposit)) {
       alertStore.pushError(
         `The amount is above current daily limit.\nThe max withdrawal today: ${foreignStore.maxCurrentDeposit} ${foreignStore.symbol
         }`
