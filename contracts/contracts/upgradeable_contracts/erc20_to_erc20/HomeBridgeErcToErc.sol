@@ -107,7 +107,6 @@ contract HomeBridgeErcToErc is
         address _owner,
         int256 _decimalShift
     ) internal {
-        require(!isInitialized());
         require(AddressUtils.isContract(_validatorContract));
         require(_owner != address(0));
         addressStorage[VALIDATOR_CONTRACT] = _validatorContract;
