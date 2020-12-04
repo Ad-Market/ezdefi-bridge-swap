@@ -399,7 +399,7 @@ export class Bridge extends React.Component {
                       <span className="bridge-token-arrow-down"></span>
                     </button>
                     <div className="bridge-token-dropdown-content">
-                      <a href="https://swap.ezdefi.com/zd">
+                      <a href="/zd">
                         <span>ZD</span>
                       </a>
                     </div>
