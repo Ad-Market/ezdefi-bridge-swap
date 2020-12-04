@@ -7,7 +7,7 @@ import RootStore from './stores/RootStore'
 
 ReactDOM.render(
   <Provider RootStore={RootStore}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.REACT_APP_UI_BASE_ROUTER}>
       <App />
     </BrowserRouter>
   </Provider>,
